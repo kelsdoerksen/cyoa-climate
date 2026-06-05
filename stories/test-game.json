@@ -2,20 +2,45 @@
   "title": "Test Game",
   "tag": "Hurricane Prep",
   "intro": "A Category 4 hurricane named Wren is forecast to make landfall near the coastal town of Port Haven in about 48 hours. The same storm looks very different depending on who you are. Choose your character to begin.",
+  "modes": [
+    {
+      "id": "base",
+      "label": "Base Scenario",
+      "description": "Face the storm with the resources you have on hand — no outside help, no advance preparation."
+    },
+    {
+      "id": "community",
+      "label": "Community Involvement & Support",
+      "description": "The same storm, but your community and outside support show up to help you face it."
+    },
+    {
+      "id": "proactive",
+      "label": "Proactive Risk Resilience",
+      "description": "Invest in a resilience measure before the storm season, then live with the results when Wren arrives."
+    }
+  ],
   "characters": [
     {
       "id": "A",
       "name": "Dr. Maya Chen",
       "role": "Climate Scientist",
       "description": "You lead a regional climate and storm-surge modeling team. Emergency managers and the public look to your forecasts to decide what to do.",
-      "start": "sci_start"
+      "starts": {
+        "base": "sci_start",
+        "community": "sci_start_comm",
+        "proactive": "sci_start_pro"
+      }
     },
     {
       "id": "B",
       "name": "Sam Rivera",
       "role": "Farmer",
       "description": "You run a 200-acre farm with a cattle herd just outside Port Haven. Everything you own is in the storm's path, and time is short.",
-      "start": "farm_start"
+      "starts": {
+        "base": "farm_start",
+        "community": "farm_start_comm",
+        "proactive": "farm_start_pro"
+      }
     }
   ],
   "nodes": {
@@ -238,6 +263,292 @@
       "ending": true,
       "outcome": "failure",
       "text": "You decide to stay. By midnight the river has jumped its banks and there's two feet of water in the yard. By dawn the low pasture is a lake, the cattle are scattering or drowning, and the water is still rising around the house.\n\nYou spend the worst night of your life on the roof of the barn, flashlight pointed at the sky, until a county rescue boat finds you the next afternoon.\n\nYou survive — but barely, and the rescuers who came for you took on the storm's risk too. Property can be rebuilt and animals replaced. The hardest lesson of Hurricane Wren is that nothing on the farm was worth staying for."
+    },
+
+    "sci_start_comm": {
+      "title": "The Forecast Lands (You're Not Alone)",
+      "text": "It's 6 a.m. and Hurricane Wren is intensifying. The forecast still shows a wide landfall window across Port Haven.\n\nThis year is different: a regional climate-resilience coalition is active, with volunteer response teams, neighboring-county emergency managers on a shared call, and a trusted community radio network ready to amplify whatever you send. You don't have to carry the warning alone.",
+      "choices": [
+        {
+          "text": "Recommend a mandatory evacuation now — the coalition already has buses, shelters, and volunteers staged.",
+          "target": "sci_evac_comm"
+        },
+        {
+          "text": "First check the compounding upstream-rain risk, with the coalition's hydrologists helping you model it.",
+          "target": "sci_compound_roll_comm"
+        }
+      ]
+    },
+    "sci_compound_roll_comm": {
+      "title": "Compounding Risk: The Stalled Rain Band",
+      "text": "The same threat the base scenario hides: a slow rain band may stall over the upstream watershed and stack river flooding onto the surge. This time you're not modeling it alone — the coalition's hydrologists are running parallel forecasts and the community radio is standing by to push whatever you decide.\n\nIt still comes down to whether the band stalls. Roll to see.",
+      "roll": {
+        "sides": 6,
+        "prompt": "Click the die. If it lands on a 2 or a 4, the rain band stalls and the floods compound.",
+        "badFaces": [2, 4],
+        "badTarget": "sci_compound_hit_comm",
+        "goodTarget": "sci_evac_comm",
+        "goodText": "The band drifts out to sea. With the coalition's hydrologists confirming it, you issue a clean, confident surge warning and the community network carries it everywhere.",
+        "badText": "The band stalls — but because the coalition was watching the rivers too, you catch the compound flood the moment the gauges spike."
+      }
+    },
+    "sci_compound_hit_comm": {
+      "title": "Two Floods at Once — Together",
+      "text": "River gauges upstream are spiking while the surge builds offshore. The combined flood will reach neighborhoods nobody planned to evacuate. But the coalition has a pre-built expanded-evacuation plan on the shelf, and the radio network can reach those neighborhoods in minutes.",
+      "choices": [
+        {
+          "text": "Trigger the coalition's expanded-evacuation plan and let the community network spread the word.",
+          "target": "sci_evac_comm_big"
+        },
+        {
+          "text": "Bypass the coalition and run it up the official chain alone to keep it 'clean'.",
+          "target": "sci_overrun"
+        }
+      ]
+    },
+    "sci_evac_comm": {
+      "title": "A Warning That Carries",
+      "ending": true,
+      "outcome": "success",
+      "text": "The evacuation order goes out — and this time it doesn't just go out, it lands. Community radio, volunteer canvassers, and neighboring-county crews move people who would never have heard a top-down alert in time. Shelters are staffed and open before the first rain band.\n\nWhen the 14-foot surge floods the western zones, the streets are empty and the shelters are full. The science was the same as always. What changed is that a community was ready to act on it the moment you spoke."
+    },
+    "sci_evac_comm_big": {
+      "title": "Ahead of Both Floods, Together",
+      "ending": true,
+      "outcome": "success",
+      "text": "You trigger the coalition's expanded plan. Within the hour, volunteers and neighboring crews are clearing the entire combined flood footprint while community radio explains, calmly and in three languages, exactly where the water will go.\n\nThe river and the sea arrive together and take streets no prior plan had ever flagged — but they take no one. The after-action report has a single headline: the compounding flood was survivable because the warning and the people to act on it were already wired together before the storm."
+    },
+
+    "sci_start_pro": {
+      "title": "Before the Season: Build Resilience",
+      "text": "It's months before hurricane season. You have the budget and political capital for exactly one major resilience investment. Whatever you build now is what you'll have to work with when the next big storm comes.\n\nChoose your investment.",
+      "choices": [
+        {
+          "text": "Fund a dense real-time storm-surge sensor and high-resolution modeling network.",
+          "target": "sci_pro_sensors"
+        },
+        {
+          "text": "Establish a pre-approved, automatic evacuation-trigger framework with local officials.",
+          "target": "sci_pro_triggers"
+        }
+      ]
+    },
+    "sci_pro_sensors": {
+      "title": "The Storm Arrives — and You Can See It",
+      "text": "Wren forms, and this time your sensor network and high-res models pin the western surge with high confidence three days out. There is no uncertainty to hide behind, for you or for the officials. The forecast is unambiguous and early.",
+      "choices": [
+        {
+          "text": "Issue the early, confident mandatory evacuation while there's plenty of time.",
+          "target": "sci_evac_pro"
+        },
+        {
+          "text": "Even with rock-solid data, wait for political consensus before recommending anything.",
+          "target": "sci_wait"
+        }
+      ]
+    },
+    "sci_pro_triggers": {
+      "title": "The Storm Arrives — and the Rules Are Set",
+      "text": "Wren forms, and the framework you built months ago is already humming: if modeled surge crosses an agreed threshold, a mandatory evacuation fires automatically, no debate, no political flinching.\n\nThe surge forecast climbs toward the threshold.",
+      "choices": [
+        {
+          "text": "Let the automatic trigger run exactly as designed.",
+          "target": "sci_compound_roll_pro"
+        },
+        {
+          "text": "Override the trigger and hold for consensus 'just to be safe'.",
+          "target": "sci_wait"
+        }
+      ]
+    },
+    "sci_compound_roll_pro": {
+      "title": "Compounding Risk: The Stalled Rain Band",
+      "text": "The trigger has fired and the western zones are clearing. The one thing your framework can't control is the upstream watershed: a rain band may stall and stack river flooding onto the surge.\n\nBut you designed the framework to widen automatically if a second threshold trips. Roll to see whether the band stalls.",
+      "roll": {
+        "sides": 6,
+        "prompt": "Click the die. If it lands on a 2 or a 4, the rain band stalls and the floods compound.",
+        "badFaces": [2, 4],
+        "badTarget": "sci_evac_pro_compound",
+        "goodTarget": "sci_evac_pro",
+        "goodText": "The band moves out to sea. The single-threshold evacuation was exactly right, and it happened automatically and early.",
+        "badText": "The band stalls — but the river gauges trip your second threshold, and the framework expands the evacuation on its own, before anyone has to argue about it."
+      }
+    },
+    "sci_evac_pro": {
+      "title": "The Storm You Were Ready For",
+      "ending": true,
+      "outcome": "success",
+      "text": "The evacuation happened early, calmly, and without a single hour lost to doubt — because the hard decisions were made months ago, when the sky was clear and there was time to think.\n\nWren floods the western zones on schedule and finds them empty. The lesson of the proactive path is quiet but profound: the most lives are saved not in the frantic 48 hours before landfall, but in the unglamorous season before, when someone chose to build the system that would act when it mattered."
+    },
+    "sci_evac_pro_compound": {
+      "title": "The Framework Holds",
+      "ending": true,
+      "outcome": "success",
+      "text": "The compounding flood — the disaster that overwhelmed the base scenario — barely registers as a crisis here. Your framework saw the second threshold trip and widened the evacuation automatically, hours before the rivers and the surge met in the streets.\n\nHomes are lost. No one is. You spend the storm not fighting for a last-minute warning, but watching a system you built do exactly what you designed it to do. That is what resilience looks like when it works."
+    },
+
+    "farm_start_comm": {
+      "title": "Two Days Out (Neighbors Calling)",
+      "text": "The hurricane warning hits as you finish chores — but so does your phone. The valley's farmers run a storm phone tree, and the co-op is already mobilizing shared trailers and spare hands. You've got 200 acres, a barn of equipment, a nearly-ripe crop, and 60 head of cattle in the low river pasture. This time, you don't have to face it alone.",
+      "choices": [
+        {
+          "text": "Take the co-op's extra trailers and move the whole herd to high ground fast.",
+          "target": "farm_cattle_comm"
+        },
+        {
+          "text": "Split the help — neighbors harvest while you and a crew start on the cattle.",
+          "target": "farm_split_comm"
+        }
+      ]
+    },
+    "farm_cattle_comm": {
+      "title": "The Herd Comes First — With Help",
+      "text": "With three borrowed trailers and four extra pairs of hands, the herd is on high ground inland by early afternoon — a job that took you a full exhausting day alone. The cattle are safe, and for once you have time to spare before the storm.",
+      "choices": [
+        {
+          "text": "Use the saved time to secure the equipment and evacuate as a convoy with the neighbors.",
+          "target": "farm_secure_comm"
+        },
+        {
+          "text": "Make a run for the floodplain pumps — and this time a neighbor rides along in a second truck.",
+          "target": "farm_wind_roll_comm"
+        }
+      ]
+    },
+    "farm_split_comm": {
+      "title": "Many Hands",
+      "text": "The phone tree pays off. While one crew runs cattle to high ground, another brings in a real chunk of the crop — money you'd have lost entirely on your own. By dusk the herd is safe and a third of the harvest is in the barn.",
+      "choices": [
+        {
+          "text": "Quit while you're ahead — convoy out to high ground with the neighbors.",
+          "target": "farm_secure_comm"
+        },
+        {
+          "text": "One last pump run on the floodplain, with a neighbor following in a second truck.",
+          "target": "farm_wind_roll_comm"
+        }
+      ]
+    },
+    "farm_wind_roll_comm": {
+      "title": "Compounding Risk: The Squall Line",
+      "text": "The irrigation pumps are worth a year's profit, sitting in the floodplain. With a neighbor following in a second truck, you make a run for them — but Wren's leading edge is throwing off squall lines that can drop a flash flood on the low ground with no warning.\n\nThe difference this time: if it goes bad, you're not down there alone. Roll to see what the sky does.",
+      "roll": {
+        "sides": 6,
+        "prompt": "Click the die. If it lands on a 2 or a 4, a squall line hits while you're on the floodplain.",
+        "badFaces": [2, 4],
+        "badTarget": "farm_pumps_caught_comm",
+        "goodTarget": "farm_secure_comm",
+        "goodText": "The sky holds. Two trucks haul the pumps out in half the time, and you're both clear before the next band — a year's profit saved, together.",
+        "badText": "A squall line slams in. Flash water comes down the channel — but your neighbor's truck is right there, engine running, headlights cutting the rain."
+      }
+    },
+    "farm_pumps_caught_comm": {
+      "title": "Caught — But Not Alone",
+      "text": "The water is rising fast and the wind is tearing at the trailers. The pumps are half-loaded. Your neighbor is already waving you toward the high road, their truck idling on the last patch of solid ground.",
+      "choices": [
+        {
+          "text": "Leave the pumps. Jump in and follow your neighbor out.",
+          "target": "farm_close_call_comm"
+        },
+        {
+          "text": "Wave them off and try to finish loading the pumps yourself.",
+          "target": "farm_stay"
+        }
+      ]
+    },
+    "farm_secure_comm": {
+      "title": "Out Together, Whole",
+      "ending": true,
+      "outcome": "success",
+      "text": "The convoy rolls out to high ground in the last clear hour — your family, your neighbors, the herd, and a barn's worth of equipment chained down and battened behind you. Wren floods the low pasture and laps at the porches, but the valley's farms emptied out as one.\n\nWhen the water drops, you'll spend weeks helping each other muck out barns and chase down strays. You lost some crop and some sleep. You kept everything that couldn't be replaced — and you learned that a flood is a lot smaller when a whole valley faces it shoulder to shoulder."
+    },
+    "farm_close_call_comm": {
+      "title": "A Loss You Walked Away From",
+      "ending": true,
+      "outcome": "mixed",
+      "text": "You leave the pumps and follow your neighbor's taillights up the rising lane, both trucks breaking onto high ground as the floodplain vanishes behind you.\n\nThe pumps are gone — a real loss. But you're standing in the rain next to the person who came back for you, and you'll do the same for them next season. Some things you can't replace, and some of them aren't equipment. You'll buy new pumps. You can't buy what made your neighbor turn that truck around."
+    },
+
+    "farm_start_pro": {
+      "title": "Before the Season: Build Resilience",
+      "text": "It's the quiet season, months before any storm. You've set aside money and time for one major investment to make the farm more resilient. Whatever you build now is what will be standing — or not — when the next hurricane comes up the coast.\n\nChoose your investment.",
+      "choices": [
+        {
+          "text": "Build an elevated livestock refuge mound with proper drainage on the high pasture.",
+          "target": "farm_pro_mound"
+        },
+        {
+          "text": "Invest in a mobile pump trailer and pre-arrange an inland pasture lease with a scouted route.",
+          "target": "farm_pro_lease"
+        }
+      ]
+    },
+    "farm_pro_mound": {
+      "title": "The Storm Arrives — and the Herd Knows Where to Go",
+      "text": "Wren is two days out. There's no frantic dawn-to-dusk drive this time: you open one gate and the cattle walk themselves up onto the engineered refuge mound, high and dry above any flood the river has ever managed. The hardest, slowest job of the base scenario simply doesn't exist anymore.",
+      "choices": [
+        {
+          "text": "Secure the equipment and evacuate your family calmly — the herd is already safe.",
+          "target": "farm_secure_pro"
+        },
+        {
+          "text": "Stay on the property to keep an eye on the herd through the storm.",
+          "target": "farm_stay"
+        }
+      ]
+    },
+    "farm_pro_lease": {
+      "title": "The Storm Arrives — and You Have a Plan",
+      "text": "Wren is two days out, and everything you'd normally scramble for is already arranged: the pumps live on a mobile trailer, the inland pasture is leased and waiting, and you scouted both the main route and a backup weeks ago.",
+      "choices": [
+        {
+          "text": "Hitch up and head out early on your pre-planned inland route, herd and pumps together.",
+          "target": "farm_route_roll_pro"
+        },
+        {
+          "text": "Wait until the last minute to leave — no sense going early.",
+          "target": "farm_stay"
+        }
+      ]
+    },
+    "farm_route_roll_pro": {
+      "title": "Compounding Risk: The Bridge",
+      "text": "You leave early, herd and pumps in tow. The one thing your planning couldn't fully control is the low bridge on the main route — in a fast-rising flood it can wash out with little warning.\n\nBut you didn't plan just one route. Roll to see whether the bridge holds.",
+      "roll": {
+        "sides": 6,
+        "prompt": "Click the die. If it lands on a 2 or a 4, the bridge washes out before you reach it.",
+        "badFaces": [2, 4],
+        "badTarget": "farm_route_caught_pro",
+        "goodTarget": "farm_secure_pro",
+        "goodText": "The bridge holds. You cross with hours to spare and reach the leased pasture with the whole herd, the pumps, and your family intact.",
+        "badText": "Word comes over the radio: the low bridge is already underwater. The main route is gone — but you scouted a backup for exactly this."
+      }
+    },
+    "farm_route_caught_pro": {
+      "title": "The Backup Route",
+      "text": "The main bridge is out and floodwater is climbing toward the lane. The decision in front of you is the one your planning was meant to make easy.",
+      "choices": [
+        {
+          "text": "Turn onto the backup route you scouted weeks ago.",
+          "target": "farm_secure_pro_alt"
+        },
+        {
+          "text": "Risk it and try to ford the washed-out bridge to save time.",
+          "target": "farm_stay"
+        }
+      ]
+    },
+    "farm_secure_pro": {
+      "title": "The Storm You Prepared For",
+      "ending": true,
+      "outcome": "success",
+      "text": "You evacuate in daylight, unhurried, with the herd already safe and the equipment secured. Wren does its worst to the low ground — and finds nothing of yours there to take.\n\nWhen you come back, you muck out, you reset, and within a season the farm is whole. The work that saved you wasn't done in the storm. It was done months earlier, on an ordinary clear day, when you chose to build for the flood instead of hoping it wouldn't come."
+    },
+    "farm_secure_pro_alt": {
+      "title": "The Road You Already Knew",
+      "ending": true,
+      "outcome": "success",
+      "text": "You turn onto the backup route without slowing down, because you've driven it before for exactly this moment. It's longer, but it's high and dry, and it carries you, the herd, and the pumps to the leased pasture as the storm closes in behind you.\n\nThe main bridge is gone; it doesn't matter. The difference between a disaster and an inconvenience, you decide, is often just a second plan made before you needed it."
     }
   }
 }

@@ -1,9 +1,28 @@
 {
-  "_comment": "Copy this file to stories/<your-id>.json, fill it in, then add a matching entry to stories/manifest.json. Delete the _comment fields when you're done. Every 'target', 'start', 'goodTarget', and 'badTarget' must match a key in 'nodes'. There are three kinds of node: a scene (has 'choices'), a dice/chance node (has 'roll'), and an ending (has \"ending\": true).",
+  "_comment": "Copy this file to stories/<your-id>.json, fill it in, then add a matching entry to stories/manifest.json. Delete the _comment fields when you're done. Every node id referenced ('target', 'goodTarget', 'badTarget', and each character's 'starts' values) must match a key in 'nodes'. There are three kinds of node: a scene (has 'choices'), a dice/chance node (has 'roll'), and an ending (has \"ending\": true).",
 
   "title": "Your Story Title",
   "tag": "Short Category (e.g. Flood Planning)",
   "intro": "One or two sentences shown on the character-select screen. Set the scene and the stakes.",
+
+  "_modes_comment": "OPTIONAL. 'modes' lets the player replay the same scenario under different conditions, switched from the orange dropdown in the top bar. Each character then needs a 'starts' map with one entry node per mode. Omit 'modes' entirely (and give each character a single 'start' instead of 'starts') for a one-mode story.",
+  "modes": [
+    {
+      "id": "base",
+      "label": "Base Scenario",
+      "description": "Face it with the resources you have on hand."
+    },
+    {
+      "id": "community",
+      "label": "Community Involvement & Support",
+      "description": "The same scenario, but your community or outside support shows up to help."
+    },
+    {
+      "id": "proactive",
+      "label": "Proactive Risk Resilience",
+      "description": "Invest in a resilience measure before the scenario plays out, then live with the results."
+    }
+  ],
 
   "characters": [
     {
@@ -11,14 +30,22 @@
       "name": "Character A Name",
       "role": "Their role / perspective",
       "description": "What this character knows, cares about, and is up against.",
-      "start": "a_start"
+      "starts": {
+        "base": "a_start",
+        "community": "a_start_community",
+        "proactive": "a_start_proactive"
+      }
     },
     {
       "id": "B",
       "name": "Character B Name",
       "role": "Their role / perspective",
       "description": "What this character knows, cares about, and is up against.",
-      "start": "b_start"
+      "starts": {
+        "base": "b_start",
+        "community": "b_start",
+        "proactive": "b_start"
+      }
     }
   ],
 
@@ -61,9 +88,27 @@
       "text": "A different ending for the other choice."
     },
 
+    "a_start_community": {
+      "_comment": "Character A's opening for the Community mode. Same situation as a_start, but help is available — branch from here however you like (you can also point choices back into shared nodes).",
+      "title": "Community mode opening",
+      "text": "Character A's scene when the community shows up.",
+      "choices": [
+        { "text": "A choice.", "target": "a_good_ending" }
+      ]
+    },
+
+    "a_start_proactive": {
+      "_comment": "Character A's opening for the Proactive mode. Usually starts with a choice of resilience measure to implement BEFORE the scenario, then runs the scenario with that advantage.",
+      "title": "Proactive mode opening",
+      "text": "Character A invests in resilience before the event, then faces it.",
+      "choices": [
+        { "text": "A choice.", "target": "a_good_ending" }
+      ]
+    },
+
     "b_start": {
       "title": "Scene heading",
-      "text": "Character B's opening scene.",
+      "text": "Character B's opening scene. (This character points every mode at the same start node — a valid choice when a character's story doesn't change between modes.)",
       "choices": [
         { "text": "A choice.", "target": "b_ending" }
       ]

@@ -19,6 +19,7 @@
   const state = {
     story: null,
     character: null, // selected character object
+    mode: null, // active scenario mode id (null if the story has no modes)
     history: [], // node ids visited (for the Back button)
   };
 
@@ -50,8 +51,67 @@
     }
 
     document.title = `${state.story.title} — Climate Adventure`;
-    titleEl.textContent = state.story.title || "";
+    titleEl.textContent = state.story.title ? `· ${state.story.title}` : "";
+    setupModes();
     renderCharacterSelect();
+  }
+
+  /* ---- Scenario modes -----------------------------------------------------*/
+
+  // Builds the orange scenario dropdown in the top bar (only when the story
+  // declares more than one mode). Switching mode restarts the current
+  // character's playthrough in that mode, or just updates the character-select
+  // screen if no character has been chosen yet.
+  function setupModes() {
+    const modes = state.story.modes || [];
+    const switchEl = document.getElementById("mode-switch");
+
+    if (modes.length < 2) {
+      state.mode = modes[0] ? modes[0].id : null;
+      switchEl.hidden = true;
+      return;
+    }
+
+    state.mode = modes[0].id;
+    switchEl.hidden = false;
+    switchEl.innerHTML = `
+      <span class="mode-switch-label">Scenario</span>
+      <span class="mode-select-wrap">
+        <select id="mode-select" aria-label="Choose scenario mode">
+          ${modes
+            .map(
+              (m) =>
+                `<option value="${escapeHtml(m.id)}" title="${escapeHtml(
+                  m.description || ""
+                )}">${escapeHtml(m.label || m.id)}</option>`
+            )
+            .join("")}
+        </select>
+      </span>`;
+
+    const sel = document.getElementById("mode-select");
+    sel.addEventListener("change", () => {
+      state.mode = sel.value;
+      if (state.character) {
+        startAs(state.character); // re-run this character in the new mode
+      } else {
+        renderCharacterSelect(); // refresh the mode description
+      }
+    });
+  }
+
+  function currentMode() {
+    return (state.story.modes || []).find((m) => m.id === state.mode) || null;
+  }
+
+  function startNodeFor(character) {
+    if (character.starts) {
+      return (
+        (state.mode && character.starts[state.mode]) ||
+        Object.values(character.starts)[0]
+      );
+    }
+    return character.start;
   }
 
   /* ---- Character selection ------------------------------------------------*/
@@ -74,12 +134,20 @@
       )
       .join("");
 
+    const mode = currentMode();
+    const modeNote = mode
+      ? `<p class="mode-note"><span class="mode-note-tag">${escapeHtml(
+          mode.label
+        )}</span> ${escapeHtml(mode.description || "")}</p>`
+      : "";
+
     stageEl.innerHTML = `
       <section class="scene">
         <h2>${escapeHtml(state.story.title || "")}</h2>
         <div class="body"><p>${escapeHtml(
           state.story.intro || "Choose your character to begin."
         )}</p></div>
+        ${modeNote}
         <div class="character-grid">${cards}</div>
       </section>`;
 
@@ -96,7 +164,7 @@
   function startAs(character) {
     state.character = character;
     state.history = [];
-    goToNode(character.start);
+    goToNode(startNodeFor(character));
   }
 
   /* ---- Scene rendering ----------------------------------------------------*/

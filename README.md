@@ -46,10 +46,19 @@ Two steps, no code:
    `stories/<your-id>.json` and write your story. The format:
 
    - `title`, `tag`, `intro` — shown on the character-select screen.
+   - `modes` *(optional)* — lets the player replay the same scenario under
+     different conditions, switched from an orange dropdown in the top bar.
+     Each mode has an `id`, `label`, and `description`. The Test Game uses
+     three: **Base**, **Community Involvement & Support**, and **Proactive
+     Risk Resilience**. Omit `modes` for a single-mode story.
    - `characters` — an array; each has an `id`, `name`, `role`, `description`,
-     and a `start` node id. The first scene a player sees depends on which
-     character they pick, so each character can have a completely different
-     storyline (they can also share nodes).
+     and a start node. If the story has `modes`, give each character a
+     `starts` map (`{ "<mode id>": "<node id>", ... }`) with one entry per
+     mode; otherwise give it a single `start` node id. The first scene a
+     player sees depends on the character **and** the active mode, so each
+     mode can be its own branch of the graph — share nodes where the story is
+     identical, diverge where the mode changes things. Switching modes
+     restarts the current character in the new mode.
    - `nodes` — a map of `node id → node`. Every node has `title` (optional)
      and `text` (a string with blank lines between paragraphs, or an array of
      strings). There are three kinds of node:
