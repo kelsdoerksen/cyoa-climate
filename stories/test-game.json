@@ -1,0 +1,143 @@
+{
+  "title": "Test Game",
+  "tag": "Hurricane Prep",
+  "intro": "A Category 4 hurricane named Wren is forecast to make landfall near the coastal town of Port Haven in about 48 hours. The same storm looks very different depending on who you are. Choose your character to begin.",
+  "characters": [
+    {
+      "id": "A",
+      "name": "Dr. Maya Chen",
+      "role": "Climate Scientist",
+      "description": "You lead a regional climate and storm-surge modeling team. Emergency managers and the public look to your forecasts to decide what to do.",
+      "start": "sci_start"
+    },
+    {
+      "id": "B",
+      "name": "Sam Rivera",
+      "role": "Farmer",
+      "description": "You run a 200-acre farm with a cattle herd just outside Port Haven. Everything you own is in the storm's path, and time is short.",
+      "start": "farm_start"
+    }
+  ],
+  "nodes": {
+    "sci_start": {
+      "title": "The Forecast Lands",
+      "text": "It's 6 a.m. and the overnight model runs are in. Hurricane Wren is intensifying faster than expected. The official forecast still shows a wide landfall window — anywhere across 80 miles of coastline, including Port Haven.\n\nEmergency managers are asking for your team's guidance. You have two days of compute and daylight to spend wisely.",
+      "choices": [
+        {
+          "text": "Run a high-resolution ensemble to narrow the landfall and storm-surge window before advising anyone.",
+          "target": "sci_model"
+        },
+        {
+          "text": "Skip the deeper analysis — brief emergency managers right now with the data you already have.",
+          "target": "sci_brief_early"
+        }
+      ]
+    },
+    "sci_model": {
+      "title": "Into the Models",
+      "text": "You spend the morning running a high-resolution ensemble. By noon a clear signal emerges: Wren will likely track slightly west, pushing a storm surge of 12–15 feet into the low-lying western neighborhoods of Port Haven — far worse than the public forecast suggests.\n\nThe science is solid, but acting on it means recommending a disruptive evacuation a full day before the storm.",
+      "choices": [
+        {
+          "text": "Recommend a mandatory evacuation of the low-lying western zones now.",
+          "target": "sci_evac"
+        },
+        {
+          "text": "Recommend only a voluntary evacuation to avoid panic and political pushback.",
+          "target": "sci_voluntary"
+        }
+      ]
+    },
+    "sci_brief_early": {
+      "title": "An Early Warning",
+      "text": "You brief the emergency management team by mid-morning. Without the high-resolution run, your confidence is low and the officials are hesitant — a needless evacuation is expensive and erodes public trust for the next storm.\n\n\"Give us something firmer,\" they say, \"or give us a reason to move now.\"",
+      "choices": [
+        {
+          "text": "Push hard for a precautionary evacuation despite the uncertainty.",
+          "target": "sci_evac"
+        },
+        {
+          "text": "Hold off — wait for the afternoon model runs before pushing.",
+          "target": "sci_wait"
+        }
+      ]
+    },
+    "sci_evac": {
+      "title": "Ahead of the Water",
+      "ending": true,
+      "outcome": "success",
+      "text": "Officials issue a mandatory evacuation of the western zones the day before landfall. It's chaotic and unpopular — until Wren makes landfall exactly where your models said it would.\n\nA 14-foot surge floods the western neighborhoods overnight. The streets are underwater, but they're empty. No lives are lost in the evacuated zones.\n\nIn the weeks that follow, your team's high-resolution surge modeling becomes the template for the whole region. Sometimes the most important science is the kind that gets people to move in time."
+    },
+    "sci_voluntary": {
+      "title": "A Half-Heeded Warning",
+      "ending": true,
+      "outcome": "mixed",
+      "text": "A voluntary evacuation goes out. Many families leave — but plenty stay, reassured by the calmer official forecast and unwilling to abandon their homes.\n\nWhen the 14-foot surge arrives, water-rescue teams spend a frantic night pulling people from rooftops. Everyone is eventually accounted for, but it's a near thing, and the trauma runs deep.\n\nYour models were right. The lesson you carry forward: good science isn't enough on its own — how clearly and forcefully it's communicated can be the difference between a warning heeded and a warning ignored."
+    },
+    "sci_wait": {
+      "title": "The Window Closes",
+      "ending": true,
+      "outcome": "failure",
+      "text": "You wait for firmer data. By the time the afternoon runs confirm the western surge threat, it's the evening before landfall and the roads are already clogging.\n\nThe mandatory evacuation goes out too late. Rain bands arrive ahead of schedule, highways flood, and thousands are trapped between home and safety when Wren comes ashore.\n\nThe science was eventually correct — but a forecast that arrives too late to act on is just a record of what went wrong. You'll spend a long time thinking about the hours you spent waiting for certainty that a storm would never give you."
+    },
+    "farm_start": {
+      "title": "Two Days Out",
+      "text": "The radio crackles with the hurricane warning as you finish the morning chores. Wren is coming, and Port Haven is in the cone. You've got 200 acres, a barn full of equipment, a nearly-ripe crop, and 60 head of cattle in the low pasture by the river.\n\nYou can't save everything. Where do you start?",
+      "choices": [
+        {
+          "text": "Move the cattle out of the low pasture to higher ground inland right away.",
+          "target": "farm_cattle"
+        },
+        {
+          "text": "Race to harvest as much of the crop as you can before the rain hits.",
+          "target": "farm_harvest"
+        }
+      ]
+    },
+    "farm_cattle": {
+      "title": "The Herd Comes First",
+      "text": "You spend the better part of a day moving the herd to a leased pasture on high ground ten miles inland. It's exhausting, and it costs you the time you might have used on the crop — but the cattle are your livelihood, and the river pasture is exactly where the flooding will be worst.\n\nWith the animals safe, you turn back to the farmstead. There's still a day before the worst of it.",
+      "choices": [
+        {
+          "text": "Secure the equipment, board up the barn, then evacuate with your family.",
+          "target": "farm_secure"
+        },
+        {
+          "text": "Stay through the storm to protect the property from wind and looters.",
+          "target": "farm_stay"
+        }
+      ]
+    },
+    "farm_harvest": {
+      "title": "Beating the Rain",
+      "text": "You throw everything into harvesting. By dusk you've salvaged maybe a third of the crop — real money in the bank. But the sky to the south has turned an ugly green-grey, and the river is already rising faster than you've ever seen.\n\nThe cattle are still down in the low pasture, and the radio says the roads inland will flood by morning.",
+      "choices": [
+        {
+          "text": "Drop everything and move the cattle now, before the roads go under.",
+          "target": "farm_cattle_late"
+        },
+        {
+          "text": "There's no time to move them safely — shelter in place with the herd and hope.",
+          "target": "farm_stay"
+        }
+      ]
+    },
+    "farm_secure": {
+      "title": "Battened Down",
+      "ending": true,
+      "outcome": "success",
+      "text": "You board the barn, chain the equipment to anchor points, and pull the truck and tractor up onto the ridge. Then you load the family and drive inland to the same high ground as the herd.\n\nWren is brutal. The river swallows the low pasture and laps at the farmhouse porch. But when the water recedes, the barn is standing, the equipment is muddy but intact, and all 60 head of cattle are alive.\n\nYou lost most of the crop and a season's income — but a farm is its land, its animals, and the people who work it. You still have all three. You'll rebuild."
+    },
+    "farm_cattle_late": {
+      "title": "A Race Against the Water",
+      "ending": true,
+      "outcome": "mixed",
+      "text": "You drive the herd toward high ground in the dark as the rain comes in sideways. The lead road is already ankle-deep and rising. You make it through — but not with everyone. A dozen head are lost to the flooding river, and the trailer nearly goes with them.\n\nThe surviving cattle and your family reach safety, soaked and shaken. You saved the harvest money and most of the herd, but the late start cost you animals you didn't have to lose.\n\nNext season, you promise yourself, you'll move the herd the moment the warning comes — and let the crop take its chances."
+    },
+    "farm_stay": {
+      "title": "Riding It Out",
+      "ending": true,
+      "outcome": "failure",
+      "text": "You decide to stay. By midnight the river has jumped its banks and there's two feet of water in the yard. By dawn the low pasture is a lake, the cattle are scattering or drowning, and the water is still rising around the house.\n\nYou spend the worst night of your life on the roof of the barn, flashlight pointed at the sky, until a county rescue boat finds you the next afternoon.\n\nYou survive — but barely, and the rescuers who came for you took on the storm's risk too. Property can be rebuilt and animals replaced. The hardest lesson of Hurricane Wren is that nothing on the farm was worth staying for."
+    }
+  }
+}

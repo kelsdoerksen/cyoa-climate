@@ -1,0 +1,63 @@
+{
+  "_comment": "Copy this file to stories/<your-id>.json, fill it in, then add a matching entry to stories/manifest.json. Delete the _comment fields when you're done. Every 'target' and 'start' must match a key in 'nodes'. Nodes with \"ending\": true finish the story.",
+
+  "title": "Your Story Title",
+  "tag": "Short Category (e.g. Flood Planning)",
+  "intro": "One or two sentences shown on the character-select screen. Set the scene and the stakes.",
+
+  "characters": [
+    {
+      "id": "A",
+      "name": "Character A Name",
+      "role": "Their role / perspective",
+      "description": "What this character knows, cares about, and is up against.",
+      "start": "a_start"
+    },
+    {
+      "id": "B",
+      "name": "Character B Name",
+      "role": "Their role / perspective",
+      "description": "What this character knows, cares about, and is up against.",
+      "start": "b_start"
+    }
+  ],
+
+  "nodes": {
+    "a_start": {
+      "title": "Scene heading (optional)",
+      "text": "Scene text. Use a blank line\n\nto split paragraphs. (You can also use an array of strings instead.)",
+      "choices": [
+        { "text": "First choice the player can make.", "target": "a_good_ending" },
+        { "text": "Second choice the player can make.", "target": "a_bad_ending" }
+      ]
+    },
+
+    "a_good_ending": {
+      "title": "Ending heading",
+      "ending": true,
+      "outcome": "success",
+      "text": "Wrap up this path. 'outcome' may be: \"success\", \"mixed\", or \"failure\" — it controls the colored badge."
+    },
+
+    "a_bad_ending": {
+      "title": "Ending heading",
+      "ending": true,
+      "outcome": "failure",
+      "text": "A different ending for the other choice."
+    },
+
+    "b_start": {
+      "title": "Scene heading",
+      "text": "Character B's opening scene.",
+      "choices": [
+        { "text": "A choice.", "target": "b_ending" }
+      ]
+    },
+
+    "b_ending": {
+      "ending": true,
+      "outcome": "mixed",
+      "text": "Character B's ending."
+    }
+  }
+}

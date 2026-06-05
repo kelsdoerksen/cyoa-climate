@@ -1,0 +1,343 @@
+/* ===========================================================================
+   Climate CYOA — shared styles
+   Used by both the landing page (index.html) and the game player (game.html).
+   =========================================================================== */
+
+:root {
+  --bg: #0d1b2a;
+  --bg-soft: #1b263b;
+  --panel: #213a5c;
+  --panel-soft: #2b4a73;
+  --accent: #4cc9f0;
+  --accent-2: #80ffdb;
+  --text: #e0e6ed;
+  --text-dim: #9fb3c8;
+  --success: #5bd99a;
+  --mixed: #ffd166;
+  --failure: #ff6b6b;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --radius: 14px;
+  --maxw: 820px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial,
+    sans-serif;
+  background: radial-gradient(1200px 600px at 50% -10%, #1b3a5b 0%, var(--bg) 60%);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent);
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+/* ---- Header ---------------------------------------------------------------*/
+
+.site-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.site-header .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  color: var(--accent-2);
+  margin: 0 0 0.5rem;
+}
+
+.site-header h1 {
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+  margin: 0 0 0.6rem;
+  line-height: 1.15;
+}
+
+.site-header p {
+  color: var(--text-dim);
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+/* ---- Game cards (landing page) -------------------------------------------*/
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+.card .tag {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--panel-soft);
+  color: var(--accent-2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.8rem;
+}
+
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.card p {
+  margin: 0 0 1.2rem;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  flex-grow: 1;
+}
+
+/* ---- Buttons --------------------------------------------------------------*/
+
+.btn {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent), #4895ef);
+  color: #06141f;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.1rem;
+  cursor: pointer;
+  font-size: 0.98rem;
+  text-align: center;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn.secondary {
+  background: var(--panel-soft);
+  color: var(--text);
+}
+
+.btn.ghost {
+  background: transparent;
+  border: 1px solid var(--panel-soft);
+  color: var(--text-dim);
+}
+
+/* ---- Game player ----------------------------------------------------------*/
+
+.scene {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  padding: 1.8rem;
+  box-shadow: var(--shadow);
+}
+
+.scene h2 {
+  margin-top: 0;
+  font-size: 1.45rem;
+}
+
+.scene .body {
+  font-size: 1.05rem;
+}
+
+.scene .body p {
+  margin: 0 0 1rem;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 1.6rem;
+}
+
+.choice-btn {
+  text-align: left;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--panel-soft);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.4;
+  transition: border-color 0.12s ease, background 0.12s ease,
+    transform 0.05s ease;
+}
+
+.choice-btn:hover {
+  border-color: var(--accent);
+  background: var(--panel-soft);
+}
+
+.choice-btn:active {
+  transform: translateY(1px);
+}
+
+/* ---- Character selection --------------------------------------------------*/
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.character-card {
+  background: var(--panel);
+  border: 1px solid var(--panel-soft);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.character-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+.character-card .pick {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-2);
+}
+
+.character-card h3 {
+  margin: 0.3rem 0 0.15rem;
+  font-size: 1.25rem;
+}
+
+.character-card .role {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
+
+.character-card p {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+/* ---- Endings --------------------------------------------------------------*/
+
+.outcome-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.outcome-success {
+  background: rgba(91, 217, 154, 0.15);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.outcome-mixed {
+  background: rgba(255, 209, 102, 0.15);
+  color: var(--mixed);
+  border: 1px solid var(--mixed);
+}
+
+.outcome-failure {
+  background: rgba(255, 107, 107, 0.15);
+  color: var(--failure);
+  border: 1px solid var(--failure);
+}
+
+/* ---- Meta bars (breadcrumb + footer controls) -----------------------------*/
+
+.game-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.game-meta .crumb {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.game-meta .crumb a {
+  text-decoration: none;
+}
+
+.controls {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+  flex-wrap: wrap;
+}
+
+.played-as {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 1.2rem;
+}
+
+.error {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid var(--failure);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  color: var(--text);
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 3rem;
+}

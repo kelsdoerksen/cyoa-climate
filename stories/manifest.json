@@ -1,0 +1,10 @@
+{
+  "games": [
+    {
+      "id": "test-game",
+      "title": "Test Game",
+      "tag": "Hurricane Prep",
+      "description": "A Category 4 hurricane is bearing down on the coastal town of Port Haven. Play as a climate scientist or a farmer and see how your choices shape the outcome."
+    }
+  ]
+}

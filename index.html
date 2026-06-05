@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Climate Choose-Your-Own-Adventure</title>
+    <meta
+      name="description"
+      content="Interactive climate use-case adventures: flood planning, disaster risk management, wildfire mitigation, and more."
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="site-header">
+        <p class="eyebrow">Climate Use-Case Studies</p>
+        <h1>Choose Your Own Climate Adventure</h1>
+        <p>
+          Step into a role, make decisions with the information your character
+          has, and see how different paths lead to different outcomes. Each
+          story explores a real climate challenge.
+        </p>
+      </header>
+
+      <main>
+        <div id="game-list" class="card-grid">
+          <!-- Game cards are injected here from stories/manifest.json -->
+          <p id="loading" style="color: var(--text-dim)">Loading games…</p>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <p>
+          Free &amp; open source. Add your own stories — see the
+          <a href="https://github.com/" id="repo-link">README</a>.
+        </p>
+      </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
