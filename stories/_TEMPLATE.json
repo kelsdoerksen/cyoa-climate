@@ -1,5 +1,5 @@
 {
-  "_comment": "Copy this file to stories/<your-id>.json, fill it in, then add a matching entry to stories/manifest.json. Delete the _comment fields when you're done. Every 'target' and 'start' must match a key in 'nodes'. Nodes with \"ending\": true finish the story.",
+  "_comment": "Copy this file to stories/<your-id>.json, fill it in, then add a matching entry to stories/manifest.json. Delete the _comment fields when you're done. Every 'target', 'start', 'goodTarget', and 'badTarget' must match a key in 'nodes'. There are three kinds of node: a scene (has 'choices'), a dice/chance node (has 'roll'), and an ending (has \"ending\": true).",
 
   "title": "Your Story Title",
   "tag": "Short Category (e.g. Flood Planning)",
@@ -27,9 +27,24 @@
       "title": "Scene heading (optional)",
       "text": "Scene text. Use a blank line\n\nto split paragraphs. (You can also use an array of strings instead.)",
       "choices": [
-        { "text": "First choice the player can make.", "target": "a_good_ending" },
+        { "text": "A choice that leads to a dice roll.", "target": "a_chance" },
         { "text": "Second choice the player can make.", "target": "a_bad_ending" }
       ]
+    },
+
+    "a_chance": {
+      "_comment": "A DICE / CHANCE NODE. The player clicks an animated die. If it lands on one of 'badFaces', they go to 'badTarget' (the risk happens); otherwise they go to 'goodTarget'. Use this for compounding hazards — a flood, high winds, an aftershock — that may or may not strike.",
+      "title": "Compounding Risk (optional heading)",
+      "text": "Describe the risk and what's at stake before the roll.",
+      "roll": {
+        "sides": 6,
+        "prompt": "Click the die. If it lands on a 2 or a 4, the risk hits.",
+        "badFaces": [2, 4],
+        "badTarget": "a_bad_ending",
+        "goodTarget": "a_good_ending",
+        "goodText": "Shown when the roll is safe.",
+        "badText": "Shown when the bad thing happens."
+      }
     },
 
     "a_good_ending": {

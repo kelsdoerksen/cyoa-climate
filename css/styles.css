@@ -294,6 +294,104 @@ a {
   border: 1px solid var(--failure);
 }
 
+/* ---- Dice / chance nodes --------------------------------------------------*/
+
+.dice-area {
+  text-align: center;
+  margin: 1.8rem 0 0.4rem;
+}
+
+.die {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+  display: inline-block;
+  transition: transform 0.1s ease;
+}
+
+.die:hover {
+  transform: scale(1.06);
+}
+
+.die:active {
+  transform: scale(0.96);
+}
+
+.die[disabled] {
+  cursor: default;
+}
+
+.die-face {
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.45));
+}
+
+.die-face rect {
+  fill: #f5f7fa;
+}
+
+.die-face .pip {
+  fill: #11253b;
+}
+
+.die-face .die-number {
+  fill: #11253b;
+  font: 700 46px "Segoe UI", system-ui, sans-serif;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.die.rolling {
+  animation: dice-shake 0.4s linear infinite;
+}
+
+@keyframes dice-shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-14deg) scale(1.05);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-7deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.roll-prompt {
+  font-weight: 600;
+  margin: 1rem 0 0.3rem;
+}
+
+.roll-odds {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.roll-result {
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin: 1.2rem 0 0.8rem;
+}
+
+.roll-result.good {
+  color: var(--success);
+}
+
+.roll-result.bad {
+  color: var(--failure);
+}
+
 /* ---- Meta bars (breadcrumb + footer controls) -----------------------------*/
 
 .game-meta {

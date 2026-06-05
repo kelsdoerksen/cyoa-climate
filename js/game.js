@@ -115,6 +115,8 @@
 
     if (node.ending) {
       renderEnding(node);
+    } else if (node.roll) {
+      renderRoll(node);
     } else {
       renderScene(node);
     }
@@ -188,6 +190,130 @@
     document
       .getElementById("replay-story-btn")
       .addEventListener("click", renderCharacterSelect);
+  }
+
+  /* ---- Dice / chance nodes ------------------------------------------------*/
+
+  // A "roll" node presents a clickable die. Faces listed in roll.badFaces send
+  // the player to roll.badTarget (the compounding risk happens); any other face
+  // sends them to roll.goodTarget. The result is genuinely random.
+  function renderRoll(node) {
+    const roll = node.roll || {};
+    const sides = roll.sides || 6;
+    const badFaces = roll.badFaces || [];
+    const oddsPct = Math.round((badFaces.length / sides) * 100);
+
+    const backBtn =
+      state.history.length > 1
+        ? `<button class="btn ghost" id="back-btn">&larr; Back</button>`
+        : "";
+
+    stageEl.innerHTML = `
+      <section class="scene">
+        ${node.title ? `<h2>${escapeHtml(node.title)}</h2>` : ""}
+        <div class="body">${paragraphs(node.text)}</div>
+        <div class="dice-area">
+          <button class="die" id="die" type="button" aria-label="Roll the die">
+            ${renderDieFace(Math.min(sides, 6))}
+          </button>
+          <p class="roll-prompt" id="roll-prompt">${escapeHtml(
+            roll.prompt || "Click the die to roll."
+          )}</p>
+          <p class="roll-odds">Land on ${formatList(
+            badFaces
+          )} and the risk hits — about ${oddsPct}% (${badFaces.length} in ${sides}).</p>
+          <div id="roll-result"></div>
+        </div>
+        <div class="controls">
+          ${backBtn}
+          <button class="btn ghost" id="restart-btn">Restart story</button>
+        </div>
+        ${playedAs()}
+      </section>`;
+
+    wireControls();
+
+    const dieEl = document.getElementById("die");
+    let rolled = false;
+    dieEl.addEventListener("click", () => {
+      if (rolled) return;
+      rolled = true;
+      doRoll(node, sides, badFaces);
+    });
+  }
+
+  function doRoll(node, sides, badFaces) {
+    const dieEl = document.getElementById("die");
+    const promptEl = document.getElementById("roll-prompt");
+    const resultEl = document.getElementById("roll-result");
+
+    const finalValue = 1 + Math.floor(Math.random() * sides);
+    const isBad = badFaces.includes(finalValue);
+
+    dieEl.classList.add("rolling");
+    dieEl.disabled = true;
+    promptEl.textContent = "Rolling…";
+
+    let ticks = 0;
+    const totalTicks = 14;
+    const interval = setInterval(() => {
+      const v = 1 + Math.floor(Math.random() * sides);
+      dieEl.innerHTML = renderDieFace(v);
+      if (++ticks >= totalTicks) {
+        clearInterval(interval);
+        dieEl.classList.remove("rolling");
+        dieEl.innerHTML = renderDieFace(finalValue);
+        revealRoll(node, finalValue, isBad, promptEl, resultEl);
+      }
+    }, 80);
+  }
+
+  function revealRoll(node, value, isBad, promptEl, resultEl) {
+    const roll = node.roll || {};
+    const target = isBad ? roll.badTarget : roll.goodTarget;
+    const msg = isBad
+      ? roll.badText || "The risk hits."
+      : roll.goodText || "You're in the clear.";
+
+    promptEl.textContent = `You rolled a ${value}.`;
+    resultEl.innerHTML = `
+      <p class="roll-result ${isBad ? "bad" : "good"}">${escapeHtml(msg)}</p>
+      <button class="btn" id="roll-continue" type="button">Continue</button>`;
+    document
+      .getElementById("roll-continue")
+      .addEventListener("click", () => goToNode(target));
+  }
+
+  // Inline SVG die face. Pip layouts for 1–6; a numeral for anything larger.
+  function renderDieFace(value) {
+    const pos = {
+      TL: [28, 28], TR: [72, 28],
+      ML: [28, 50], MC: [50, 50], MR: [72, 50],
+      BL: [28, 72], BR: [72, 72],
+    };
+    const layouts = {
+      1: ["MC"],
+      2: ["TL", "BR"],
+      3: ["TL", "MC", "BR"],
+      4: ["TL", "TR", "BL", "BR"],
+      5: ["TL", "TR", "MC", "BL", "BR"],
+      6: ["TL", "ML", "BL", "TR", "MR", "BR"],
+    };
+    const layout = layouts[value];
+    const inner = layout
+      ? layout
+          .map((k) => `<circle cx="${pos[k][0]}" cy="${pos[k][1]}" r="9" class="pip" />`)
+          .join("")
+      : `<text x="50" y="50" class="die-number">${value}</text>`;
+    return `<svg viewBox="0 0 100 100" class="die-face" aria-hidden="true">
+      <rect x="6" y="6" width="88" height="88" rx="18" />${inner}</svg>`;
+  }
+
+  function formatList(arr) {
+    if (arr.length === 0) return "no faces";
+    if (arr.length === 1) return `a ${arr[0]}`;
+    if (arr.length === 2) return `a ${arr[0]} or ${arr[1]}`;
+    return "a " + arr.slice(0, -1).join(", a ") + ", or a " + arr[arr.length - 1];
   }
 
   /* ---- Controls -----------------------------------------------------------*/

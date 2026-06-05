@@ -50,13 +50,31 @@ Two steps, no code:
      and a `start` node id. The first scene a player sees depends on which
      character they pick, so each character can have a completely different
      storyline (they can also share nodes).
-   - `nodes` — a map of `node id → scene`. A scene has:
-     - `title` (optional), `text` (a string with blank lines between
-       paragraphs, or an array of strings), and
-     - either `choices` (an array of `{ "text": ..., "target": <node id> }`)
-       **or** `"ending": true` with an `outcome` of `"success"`, `"mixed"`,
-       or `"failure"` (controls the colored badge).
-   - Every `start` and `target` must match a key in `nodes`.
+   - `nodes` — a map of `node id → node`. Every node has `title` (optional)
+     and `text` (a string with blank lines between paragraphs, or an array of
+     strings). There are three kinds of node:
+     - **Scene** — has `choices`, an array of
+       `{ "text": ..., "target": <node id> }`.
+     - **Dice / chance** — has a `roll` object for a compounding-risk gamble.
+       The player clicks an animated die; faces in `badFaces` send them to
+       `badTarget` (the hazard strikes), any other face to `goodTarget`:
+       ```json
+       "roll": {
+         "sides": 6,
+         "prompt": "Click the die. If it lands on a 2 or a 4, the levee fails.",
+         "badFaces": [2, 4],
+         "badTarget": "levee_breaks",
+         "goodTarget": "levee_holds",
+         "goodText": "Shown on a safe roll.",
+         "badText": "Shown when the risk hits."
+       }
+       ```
+       Two bad faces on a 6-sided die is a ~33% chance; the player sees the
+       odds. Set `badFaces` to tune the probability.
+     - **Ending** — has `"ending": true` and an `outcome` of `"success"`,
+       `"mixed"`, or `"failure"` (controls the colored badge).
+   - Every `start`, `target`, `goodTarget`, and `badTarget` must match a key
+     in `nodes`.
 
 2. **List it.** Add an entry to the `games` array in `stories/manifest.json`:
 

@@ -42,10 +42,63 @@
           "target": "sci_evac"
         },
         {
-          "text": "Recommend only a voluntary evacuation to avoid panic and political pushback.",
+          "text": "Hold off one more hour — first gauge whether an upstream rain band could stack river flooding on top of the surge.",
+          "target": "sci_compound_roll"
+        }
+      ]
+    },
+    "sci_compound_roll": {
+      "title": "Compounding Risk: The Stalled Rain Band",
+      "text": "There's a second threat the public forecast is glossing over. A slow-moving rain band is parked over the river's upstream watershed. If it stalls, the runoff will pour downstream and meet the storm tide head-on — turning two manageable floods into one catastrophe.\n\nThe atmospheric models split on whether it stalls. It comes down to the next few hours. Roll to see how the watershed plays out.",
+      "roll": {
+        "sides": 6,
+        "prompt": "Click the die. If it lands on a 2 or a 4, the rain band stalls and the floods compound.",
+        "badFaces": [2, 4],
+        "badTarget": "sci_compound_hit",
+        "goodTarget": "sci_compound_clear",
+        "goodText": "The rain band drifts out to sea. The watershed stays within its banks — you're dealing with the surge alone, exactly as modeled.",
+        "badText": "The rain band stalls. Upstream rivers are already cresting, and that water is heading for the same coastline as the surge. The flood footprint just doubled."
+      }
+    },
+    "sci_compound_clear": {
+      "title": "Back to the Surge",
+      "text": "With the compounding flood threat off the table, you can give emergency managers a clean, confident message about the storm surge alone. The only question left is how forcefully to push it.",
+      "choices": [
+        {
+          "text": "Recommend a mandatory evacuation of the western zones now.",
+          "target": "sci_evac"
+        },
+        {
+          "text": "Recommend only a voluntary evacuation to avoid panic.",
           "target": "sci_voluntary"
         }
       ]
+    },
+    "sci_compound_hit": {
+      "title": "Two Floods at Once",
+      "text": "Your screen tells the story: river gauges upstream are spiking while the surge builds offshore. The combined flood will reach neighborhoods nobody planned to evacuate. You have minutes, not hours, to change the official response.",
+      "choices": [
+        {
+          "text": "Call the emergency director and demand an immediate expanded evacuation across the whole flood footprint.",
+          "target": "sci_compound_evac"
+        },
+        {
+          "text": "Stick with the western-zone plan — a last-minute expansion could cause more chaos than the flood.",
+          "target": "sci_overrun"
+        }
+      ]
+    },
+    "sci_compound_evac": {
+      "title": "Ahead of Both Floods",
+      "ending": true,
+      "outcome": "success",
+      "text": "Your warning detonates through the chain of command. Officials expand the evacuation to the entire combined flood zone with hours to spare. It is enormous, expensive, and deeply unpopular — right up until the river and the sea arrive together and swallow streets no prior plan had ever flagged.\n\nThe water takes homes. It does not take lives. In the after-action reviews, your insistence on modeling the compounding risk — the flood nobody else was looking for — is credited with the empty, survivable streets. The hardest forecasts to make are the ones about two disasters at once."
+    },
+    "sci_overrun": {
+      "title": "The Flood Nobody Planned For",
+      "ending": true,
+      "outcome": "failure",
+      "text": "You hold the line on the western-zone plan. Then the rivers and the surge arrive together, exactly as the gauges warned, and pour into neighborhoods that were never told to leave.\n\nThe rescues stretch into days. The compounding flood was in your data hours before it happened — you saw it, and you let the fear of a messy, last-minute evacuation talk you out of acting. That silence is the part you'll carry."
     },
     "sci_brief_early": {
       "title": "An Early Warning",
@@ -102,10 +155,57 @@
           "target": "farm_secure"
         },
         {
-          "text": "Stay through the storm to protect the property from wind and looters.",
+          "text": "Make one last run to haul the irrigation pumps off the floodplain before you go.",
+          "target": "farm_wind_roll"
+        }
+      ]
+    },
+    "farm_wind_roll": {
+      "title": "Compounding Risk: The Squall Line",
+      "text": "The irrigation pumps are worth a year's profit, and they're sitting right in the floodplain. You could make one fast run to haul them out before you evacuate.\n\nBut the leading edge of Wren is throwing off squall lines — sudden walls of wind and rain that can drop a flash flood on the low ground with almost no warning. If one hits while you're down there, you'll be caught in the worst possible place. Roll to see what the sky does.",
+      "roll": {
+        "sides": 6,
+        "prompt": "Click the die. If it lands on a 2 or a 4, a squall line hits while you're on the floodplain.",
+        "badFaces": [2, 4],
+        "badTarget": "farm_pumps_caught",
+        "goodTarget": "farm_pumps_saved",
+        "goodText": "The sky holds. You haul the pumps up to the ridge and get clear before the next band rolls in — a year's profit saved.",
+        "badText": "A squall line slams in out of nowhere. Wind flattens the reeds and a wall of flash-flood water comes down the channel toward you while you're still loading the trailer."
+      }
+    },
+    "farm_pumps_saved": {
+      "title": "Pumps on the Ridge",
+      "text": "The pumps are safe and the truck is loaded. You've bought back a season's income. Now there's just the question of you and the farmstead, with the worst of the storm still hours out.",
+      "choices": [
+        {
+          "text": "Take the win — load the family and evacuate to high ground.",
+          "target": "farm_secure"
+        },
+        {
+          "text": "Push your luck and stay to guard the place through the storm.",
           "target": "farm_stay"
         }
       ]
+    },
+    "farm_pumps_caught": {
+      "title": "Caught in the Open",
+      "text": "The water is rising over your boots and the wind is tearing at the trailer. The pumps are half-loaded. Every second you spend on them is a second the flood gets between you and the road home.",
+      "choices": [
+        {
+          "text": "Leave the pumps. Get in the truck and run for high ground now.",
+          "target": "farm_close_call"
+        },
+        {
+          "text": "You're so close — finish loading the pumps first.",
+          "target": "farm_stay"
+        }
+      ]
+    },
+    "farm_close_call": {
+      "title": "A Hard Lesson, Cheaply Bought",
+      "ending": true,
+      "outcome": "mixed",
+      "text": "You abandon the pumps and gun the truck up the rising lane, water spraying from the wheels, and break onto high ground just as the floodplain disappears behind you.\n\nThe pumps are gone — a brutal loss. But you're standing here to feel it, and so is your family. Some gambles you only get to make once. You won't bet your life on a piece of equipment again."
     },
     "farm_harvest": {
       "title": "Beating the Rain",
